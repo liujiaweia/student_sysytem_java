@@ -1,0 +1,43 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="student_system.dao.GroupDAO">
+
+
+
+    <resultMap id="groupMap" type="Group">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="content" property="content"/>
+        <result column="clazzid" property="clazzid"/>
+        <!--封装小组的班级信息-->
+        <association property="clazz" javaType="Clazz">
+            <id column="cid" property="id"/>
+            <result column="cname" property="name"/>
+        </association>
+    </resultMap>
+
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="groupMap">
+        select g.id,g.name,g.content,g.clazzid,
+               c.id cid,c.name cname
+        from t_group g
+        left join t_clazz c
+        on g.clazzid = c.id
+    </select>
+
+
+    <!--添加数据-->
+    <insert id="save" parameterType="Group" useGeneratedKeys="true" keyProperty="id">
+        insert into t_group values(#{id},#{name},#{content},#{clazzid})
+    </insert>
+
+
+    <!--根据班级id查询所有小组信息-->
+    <select id="findByClazzId" parameterType="String" resultType="Group">
+        select id,name,content,clazzid from t_group where clazzid = #{id}
+    </select>
+
+
+</mapper>

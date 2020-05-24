@@ -1,0 +1,27 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="student_system.dao.TagDAO">
+
+
+
+
+    <select id="findAll" resultType="Tag">
+        select id,name,type,createtime from t_tag
+    </select>
+
+
+    <select id="findByType" parameterType="String" resultType="Tag">
+        select id,name,type,createtime from t_tag where type=#{type}
+    </select>
+
+
+    <insert id="save" parameterType="Tag" useGeneratedKeys="true" keyProperty="id">
+        insert into t_tag values (#{id},#{name},#{type},#{createtime})
+    </insert>
+
+
+
+
+
+</mapper>

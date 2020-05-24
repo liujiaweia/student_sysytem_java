@@ -1,0 +1,49 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="student_system.dao.ClazzDAO">
+
+
+    <!--用来手动指定mybatis改如何封装结果
+        id:resultmap的唯一标识  全局唯一
+        type:当前封装结果的类型
+    -->
+    <resultMap id="clazzMap" type="Clazz">
+        <!--用来封装主键的-->
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="tagid" property="tagid"/>
+        <!--封装标签对象-->
+        <association property="tag" javaType="Tag">
+            <id column="tid" property="id"/>
+            <result column="tname" property="name"/>
+            <result column="type" property="type"/>
+            <result column="createtime" property="createtime"/>
+        </association>
+
+    </resultMap>
+
+
+
+    <!--查询所有 resultMap对应的是resultmap标签中id属性值-->
+    <select id="findAll" resultMap="clazzMap">
+      select
+        c.id,c.name,c.tagid,
+        t.id tid,t.name tname,t.type,t.createtime
+      from t_clazz c
+      left join t_tag t
+      on c.tagid = t.id
+    </select>
+<!--    <select id="findAll" resultType="Clazz">-->
+<!--        select id,name from t_clazz-->
+<!--    </select>-->
+
+
+
+    <insert id="save" parameterType="Clazz" useGeneratedKeys="true" keyProperty="id">
+        insert into t_clazz values(#{id},#{name},#{tagid})
+    </insert>
+
+
+
+</mapper>

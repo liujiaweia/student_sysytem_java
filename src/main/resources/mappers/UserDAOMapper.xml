@@ -1,0 +1,12 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="student_system.dao.UserDAO">
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user values (#{id},#{name},#{password},#{status},#{regtime},#{role})
+    </insert>
+
+    <select id="findByName" parameterType="String" resultType="User">
+        select id,name,password,status,regtime,role from t_user where name = #{name}
+    </select>
+</mapper>
